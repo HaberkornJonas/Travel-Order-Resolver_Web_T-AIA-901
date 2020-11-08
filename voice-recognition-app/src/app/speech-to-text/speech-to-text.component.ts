@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VoiceRecognitionService } from '../service/voice-recognition.service'
+import { VoiceRecognitionService } from '../services/VoiceRecognition/voice-recognition.service'
 
 @Component({
   selector: 'app-speech-to-text',
@@ -9,19 +9,18 @@ import { VoiceRecognitionService } from '../service/voice-recognition.service'
 })
 export class SpeechToTextComponent implements OnInit {
 
-  constructor(public service : VoiceRecognitionService) 
-  { 
+  constructor(public service: VoiceRecognitionService) {
     this.service.init()
   }
 
   ngOnInit(): void {
   }
 
-  startService(){
+  startService() {
     this.service.start()
   }
 
-  stopService(){
+  stopService() {
     this.service.stop()
   }
 

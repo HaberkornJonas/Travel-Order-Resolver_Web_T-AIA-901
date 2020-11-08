@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-
 declare var webkitSpeechRecognition: any;
 
 @Injectable({
@@ -8,10 +7,11 @@ declare var webkitSpeechRecognition: any;
 })
 export class VoiceRecognitionService {
 
-  recognition =  new webkitSpeechRecognition();
+  recognition = new webkitSpeechRecognition();
   isStoppedSpeechRecog = false;
-  public text = '';
-  tempWords;
+  public text = "";
+  public showRequest = "";
+  tempWords = "";
 
   constructor() { }
 
@@ -31,30 +31,46 @@ export class VoiceRecognitionService {
   }
 
   start() {
+    this.showRequest = "";
     this.isStoppedSpeechRecog = false;
     this.recognition.start();
-    console.log("Speech recognition started")
+    console.log("Speech recognition started");
+
+    console.log(this.text.length);
+    setTimeout(() => {
+      this.wordConcat();
+      if (this.text.length === 0) {
+        this.stop();
+      }
+    }, 3000);
+
     this.recognition.addEventListener('end', (condition) => {
       if (this.isStoppedSpeechRecog) {
         this.recognition.stop();
         console.log("End speech recognition")
       } else {
-        this.wordConcat()
+        this.wordConcat();
         this.recognition.start();
       }
     });
   }
 
   stop() {
+    this.showRequest = this.text;
     this.isStoppedSpeechRecog = true;
     this.wordConcat()
     this.recognition.stop();
     console.log("End speech recognition")
+    this.text = "";
   }
 
   wordConcat() {
-    this.text = this.text + ' ' + this.tempWords + '.';
+    if (this.tempWords.length > 0) {
+      this.text = this.text + ' ' + this.tempWords;
+    }
     this.tempWords = '';
   }
+
+
 
 }
