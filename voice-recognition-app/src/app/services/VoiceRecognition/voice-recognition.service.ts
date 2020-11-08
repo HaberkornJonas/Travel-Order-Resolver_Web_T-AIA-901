@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { PathfinderService } from '../api/pathfinder.service';
+import { HttpClient } from '@angular/common/http';
 
 declare var webkitSpeechRecognition: any;
 
@@ -7,13 +9,16 @@ declare var webkitSpeechRecognition: any;
 })
 export class VoiceRecognitionService {
 
+  pathFinderAPI = new PathfinderService(this.httpClient);
+
   recognition = new webkitSpeechRecognition();
   isStoppedSpeechRecog = false;
   public text = "";
   public showRequest = "";
   tempWords = "";
+  bestPath: any;
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
   init() {
 
@@ -62,6 +67,7 @@ export class VoiceRecognitionService {
     this.recognition.stop();
     console.log("End speech recognition")
     this.text = "";
+    this.bestPath = this.pathFinderAPI.getBestPath();
   }
 
   wordConcat() {

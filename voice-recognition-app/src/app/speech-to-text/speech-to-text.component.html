@@ -3,4 +3,7 @@
     <button style="margin: 10px;" (click)="startService()">Appuyez pour enregistrer votre demande</button>
     <button style="margin: 10px;" (click)="stopService()">Stop</button>
     <p>{{service.text || service.showRequest}}</p>
+    <p>Meilleur trajet possible : </p>
+    <br>
+    <p>{{service.bestPath}}</p>
 </div>
