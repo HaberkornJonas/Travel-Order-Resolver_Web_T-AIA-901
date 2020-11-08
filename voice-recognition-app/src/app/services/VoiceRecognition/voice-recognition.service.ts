@@ -67,7 +67,8 @@ export class VoiceRecognitionService {
     this.recognition.stop();
     console.log("End speech recognition")
     this.text = "";
-    this.bestPath = this.pathFinderAPI.getBestPath();
+    this.bestPath = this.pathFinderAPI.getBestPath(this.showRequest);
+    console.log(this.bestPath);
   }
 
   wordConcat() {

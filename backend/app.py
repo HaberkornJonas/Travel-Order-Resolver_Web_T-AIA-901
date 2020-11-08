@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 from infrastructure.InitData import InitData
 from infrastructure.PathFinder import PathFinder
@@ -16,7 +16,7 @@ languageProcessor = LanguageProcessing()
 
 @app.route('/')
 def home():
-    return "<h2>🚋  Welcome, this is the Home page of our api's path finder.  🚋</h2> " \
+    return "<h2>🚋  Welcome, this is the Home page of our path finder api's .  🚋</h2> " \
            "<br>" \
            "You should try that endpoint 👉 /api/v1/getBestPath?phrase={yourSentenceHere}"
 
@@ -25,16 +25,18 @@ def userRequest():
 
     query_parameters = request.args
 
-    userPhrase = query_parameters.get('phrase')
+    if query_parameters.get('phrase'):
 
-    capitalizedString = userPhrase.title()
+        userPhrase = query_parameters.get('phrase')
+        print(userPhrase)
 
-    res = languageProcessor.analyseRequest(capitalizedString)
+        capitalizedString = userPhrase.title()
 
-    print("res : ", res)
+        res = languageProcessor.analyseRequest(capitalizedString)
 
-    return json.dumps(res)
-
+        return jsonify(res)
+    else :
+        return "got no request"
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0')

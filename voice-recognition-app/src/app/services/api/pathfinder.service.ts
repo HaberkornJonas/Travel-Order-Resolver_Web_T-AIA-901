@@ -6,14 +6,14 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PathfinderService {
 
-  readonly ROOT_URL = 'https://jsonplaceholder.typicode.com/posts/1';
+  readonly ROOT_URL = 'https://http://localhost:5000/api/v1/getBestPath?phrase=';
 
   bestPath: any;
 
   constructor(private http: HttpClient) { }
 
-  getBestPath() {
-    return this.bestPath = this.http.get(this.ROOT_URL);
+  getBestPath(request: string) {
+    return this.bestPath = this.http.get(this.ROOT_URL + request);
   }
 
 }

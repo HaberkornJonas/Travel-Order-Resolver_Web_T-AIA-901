@@ -1,5 +1,6 @@
 # Imports
 import os
+import os.path
 import csv
 import numpy as np
 from numpy.core._multiarray_umath import ndarray
