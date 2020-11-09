@@ -5,5 +5,7 @@
     <p>{{service.text || service.showRequest}}</p>
     <p>Meilleur trajet possible : </p>
     <br>
-    <p>{{service.bestPath}}</p>
+    <ul>
+        <li *ngFor="let path of service.bestPath">{{path}}</li>
+    </ul>
 </div>

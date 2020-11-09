@@ -16,7 +16,7 @@ export class VoiceRecognitionService {
   public text = "";
   public showRequest = "";
   tempWords = "";
-  bestPath: any;
+  bestPath: string[];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -41,7 +41,6 @@ export class VoiceRecognitionService {
     this.recognition.start();
     console.log("Speech recognition started");
 
-    console.log(this.text.length);
     setTimeout(() => {
       this.wordConcat();
       if (this.text.length === 0) {
@@ -67,8 +66,9 @@ export class VoiceRecognitionService {
     this.recognition.stop();
     console.log("End speech recognition")
     this.text = "";
-    this.bestPath = this.pathFinderAPI.getBestPath(this.showRequest);
-    console.log(this.bestPath);
+    this.pathFinderAPI.getBestPath(this.showRequest).subscribe(res => {
+      this.bestPath = res;
+    });
   }
 
   wordConcat() {

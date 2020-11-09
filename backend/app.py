@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 from infrastructure.InitData import InitData
 from infrastructure.PathFinder import PathFinder
@@ -7,6 +8,8 @@ from infrastructure.LanguageProcessing import LanguageProcessing
 import json
 
 app = Flask(__name__)
+app = Flask(__name__)
+CORS(app)
 app.config["DEBUG"] = True
 
 # Init classes
