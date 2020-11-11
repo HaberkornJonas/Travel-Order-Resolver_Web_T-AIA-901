@@ -42,8 +42,7 @@ export class VoiceRecognitionService {
     console.log("Speech recognition started");
 
     setTimeout(() => {
-      this.wordConcat();
-      if (this.text.length === 0) {
+      if (this.tempWords.length === 0) {
         this.stop();
       }
     }, 3000);
@@ -66,18 +65,20 @@ export class VoiceRecognitionService {
     this.recognition.stop();
     console.log("End speech recognition")
     this.text = "";
-    this.pathFinderAPI.getBestPath(this.showRequest).subscribe(res => {
-      this.bestPath = res;
-    });
+
+    if (this.showRequest.length > 0)
+      this.pathFinderAPI.getBestPath(this.showRequest).subscribe(res => {
+        this.bestPath = res;
+      });
   }
 
   wordConcat() {
+
     if (this.tempWords.length > 0) {
       this.text = this.text + ' ' + this.tempWords;
     }
+
     this.tempWords = '';
+
   }
-
-
-
 }
