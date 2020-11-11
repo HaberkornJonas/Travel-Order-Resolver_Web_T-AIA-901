@@ -8,14 +8,15 @@ from infrastructure.LanguageProcessing import LanguageProcessing
 import json
 
 app = Flask(__name__)
-app = Flask(__name__)
 CORS(app)
-app.config["DEBUG"] = True
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Init classes
 initData = InitData()
-pathFinder = PathFinder(initData.trainStationNameToId, initData.trainStationIdToName, initData.tripGraph)
+pathFinder = PathFinder(initData.trainStationNameToId,
+                        initData.trainStationIdToName, initData.tripGraph)
 languageProcessor = LanguageProcessing()
+
 
 @app.route('/')
 def home():
@@ -23,23 +24,34 @@ def home():
            "<br>" \
            "You should try that endpoint 👉 /api/v1/getBestPath?phrase={yourSentenceHere}"
 
-@app.route('/api/v1/getBestPath', methods=["GET"])
-def userRequest():
 
-    query_parameters = request.args
+@app.route('/api/v1/getBestPath', methods=["POST"])
+def userPostRequest():
 
-    if query_parameters.get('phrase'):
+    userPhrase = request.get_data(as_text=True)
 
-        userPhrase = query_parameters.get('phrase')
-        print(userPhrase)
+    res = languageProcessor.analyseRequest(userPhrase)
 
-        capitalizedString = userPhrase.title()
+    return jsonify(res)
 
-        res = languageProcessor.analyseRequest(capitalizedString)
-
-        return jsonify(res)
-    else :
-        return "got no request"
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
+
+# @app.route('/api/v1/getBestPath', methods=["GET"])
+# def userGetRequest():
+
+#     query_parameters = request.args
+
+#     if query_parameters.get('phrase'):
+
+#         userPhrase = query_parameters.get('phrase')
+#         print(userPhrase)
+
+#         capitalizedString = userPhrase.title()
+
+#         res = languageProcessor.analyseRequest(capitalizedString)
+
+#         return jsonify(res)
+#     else:
+#         return "got no request"
