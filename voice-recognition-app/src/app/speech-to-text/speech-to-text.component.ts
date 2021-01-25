@@ -38,8 +38,8 @@ export class SpeechToTextComponent implements OnInit {
   }
 
   stopService() {
-    this.service.stop()
     this.recording = false;
+    this.service.stop()
   }
 
 }

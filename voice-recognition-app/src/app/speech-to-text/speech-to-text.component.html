@@ -58,7 +58,7 @@
 
       <!-- <button style="margin: 10px" (click)="stopService()">Stop</button> -->
       <br>
-      <mat-card *ngIf="service.text || service.showRequest ">{{ service.text || service.showRequest }}</mat-card>
+      <mat-card *ngIf="service.showRequest ">{{service.showRequest }}</mat-card>
       <br>
       <mat-card *ngIf="service.bestPath">
         <mat-vertical-stepper [linear]="false" #stepper>
