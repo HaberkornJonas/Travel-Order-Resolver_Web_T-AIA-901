@@ -36,17 +36,16 @@ export class VoiceRecognitionService {
   }
 
   start() {
-    this.recognition.stop();
     this.showRequest = "";
     this.isStoppedSpeechRecog = false;
     this.recognition.start();
     console.log("Speech recognition started");
 
-    // setTimeout(() => {
-    //   if (this.tempWords.length === 0) {
-    //     this.stop();
-    //   }
-    // }, 3000);
+    setTimeout(() => {
+      if (this.tempWords.length === 0) {
+        this.stop();
+      }
+    }, 3000);
 
     this.recognition.addEventListener('end', (condition) => {
       if (this.isStoppedSpeechRecog) {
@@ -76,12 +75,10 @@ export class VoiceRecognitionService {
   }
 
   wordConcat() {
-
     if (this.tempWords.length > 0) {
       this.text = this.text + ' ' + this.tempWords;
     }
 
     this.tempWords = '';
-
   }
 }

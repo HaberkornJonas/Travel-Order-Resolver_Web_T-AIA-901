@@ -1,11 +1,7 @@
 <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side">
     <mat-selection-list #shoes [multiple]="false">
-      <mat-list-option
-        (click)="drawer.toggle()"
-        *ngFor="let menu_ of menu"
-        [value]="menu_"
-      >
+      <mat-list-option (click)="drawer.toggle()" *ngFor="let menu_ of menu" [value]="menu_">
         {{ menu_.text }}
         <mat-divider></mat-divider>
       </mat-list-option>
@@ -25,12 +21,8 @@
 
   <p>
     <mat-toolbar color="primary">
-      <button
-        (click)="drawer.toggle()"
-        mat-icon-button
-        class="example-icon"
-        aria-label="Example icon-button with menu icon"
-      >
+      <button (click)="drawer.toggle()" mat-icon-button class="example-icon"
+        aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
       </button>
       <span>{{ "PROJET IA 901 GR -- " + selectedMenu }}</span>
@@ -48,20 +40,12 @@
       <!-- <button style="margin: 10px" (click)="startService()">
         Appuyez pour enregistrer votre demande
       </button> -->
-      <button
-        mat-raised-button
-        (click)="playAudio(); startService()"
-        color="primary"
-      >
+      <button mat-raised-button (click)="playAudio(); startService()" color="primary">
         Commencer l'enregistrement
       </button>
       <div style="margin: 10px"></div>
-      <button
-        mat-raised-button
-        (click)="playAudio(); stopService()"
-        color="warn"
-      >
-        Arreter et chercher
+      <button mat-raised-button (click)="playAudio(); stopService()" color="warn">
+        Chercher
       </button>
       <br>
 
@@ -74,14 +58,10 @@
 
       <!-- <button style="margin: 10px" (click)="stopService()">Stop</button> -->
       <br>
-      <mat-card *ngIf="service.text || service.showRequest " >{{ service.text || service.showRequest }}</mat-card>
+      <mat-card *ngIf="service.text || service.showRequest ">{{ service.text || service.showRequest }}</mat-card>
       <br>
-      <mat-card  *ngIf="service.bestPath">
-        <mat-vertical-stepper
-         
-          [linear]="false"
-          #stepper
-        >
+      <mat-card *ngIf="service.bestPath">
+        <mat-vertical-stepper [linear]="false" #stepper>
           <mat-step *ngFor="let path of service.bestPath">
             <ng-template matStepLabel>{{ path }} </ng-template>
           </mat-step>

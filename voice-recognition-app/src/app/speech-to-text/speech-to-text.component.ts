@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { fakeAsync } from '@angular/core/testing';
 import { VoiceRecognitionService } from '../services/VoiceRecognition/voice-recognition.service'
-import { Howl, Howler } from 'howler';
-import { timer } from 'rxjs';
+import { Howl } from 'howler';
 
 @Component({
   selector: 'app-speech-to-text',
@@ -13,7 +11,9 @@ import { timer } from 'rxjs';
 export class SpeechToTextComponent implements OnInit {
   recording = false;
   selectedMenu = "Recherche Vocale";
-  audio = new Audio("/Users/mainabila/Desktop/EPITECH_PROJECTS/t-IA/tai901v2/backend/data/poh.wav");
+  audio = new Howl({
+    src: ['assets/poh.wav'],
+  });
   menu = [
     { text: "Recherche Vocale", icon: "", id: 0 },
     { text: "Recherche par saisie", icon: "", id: 1 },
@@ -29,23 +29,15 @@ export class SpeechToTextComponent implements OnInit {
   }
 
   playAudio() {
-    var sound = new Howl({
-      src: ['assets/poh.wav'],
-    });
-
-    sound.play()
-    // this.audio.load();
-    // this.audio.play();
+    this.audio.play()
   }
 
 
   startService() {
     if (!this.recording) { this.service.start(); this.recording = true; }
-
   }
 
   stopService() {
-
     this.service.stop()
     this.recording = false;
   }
