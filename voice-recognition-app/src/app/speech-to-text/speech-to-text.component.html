@@ -6,17 +6,6 @@
         <mat-divider></mat-divider>
       </mat-list-option>
     </mat-selection-list>
-
-    <!-- <mat-grid-list cols="4" rowHeight="100px">
-        <mat-grid-tile
-            *ngFor="let menu_ of menu" >
-          <button  *ngFor="let menu_ of menu"  (click)="showFiller = !showFiller" mat-raised-button>
-        {{menu_.text}}
-      </button>
-      <br>
-        </mat-grid-tile>
-      </mat-grid-list>
-     -->
   </mat-drawer>
 
   <p>
@@ -31,36 +20,21 @@
   </p>
 
   <div class="example-sidenav-content">
-    <!-- <button type="button" mat-button (click)="playAudio(); startService()">
-      play
-    </button> -->
-
     <div style="margin: 100px">
       <h1>Où voulez vous vous rendre ?</h1>
-      <!-- <button style="margin: 10px" (click)="startService()">
-        Appuyez pour enregistrer votre demande
-      </button> -->
-      <button mat-raised-button (click)="playAudio(); startService()" color="primary">
+      <button mat-raised-button (click)="startService()" color="primary">
         Commencer l'enregistrement
       </button>
       <div style="margin: 10px"></div>
-      <button mat-raised-button (click)="playAudio(); stopService()" color="warn">
+      <button mat-raised-button (click)="getBestPath()" color="warn">
         Chercher
       </button>
       <br>
 
-      <!-- TF arret -->
-      <!-- {{ service.isStoppedSpeechRecog }}
-      {{ recording }}
-      <mat-spinner
-        *ngIf="service.isStoppedSpeechRecog && recording"
-      ></mat-spinner> -->
-
-      <!-- <button style="margin: 10px" (click)="stopService()">Stop</button> -->
       <br>
-      <mat-card *ngIf="service.showRequest ">{{service.showRequest }}</mat-card>
+      <mat-card *ngIf="service.showRequest">{{service.showRequest }}</mat-card>
       <br>
-      <mat-card *ngIf="service.bestPath">
+      <mat-card *ngIf="service.bestPath?.length > 0">
         <mat-vertical-stepper [linear]="false" #stepper>
           <mat-step *ngFor="let path of service.bestPath">
             <ng-template matStepLabel>{{ path }} </ng-template>
@@ -68,9 +42,6 @@
         </mat-vertical-stepper>
       </mat-card>
 
-      <!-- <ul>
-        <li *ngFor="let path of service.bestPath">{{ path }}</li>
-      </ul> -->
     </div>
   </div>
 </mat-drawer-container>

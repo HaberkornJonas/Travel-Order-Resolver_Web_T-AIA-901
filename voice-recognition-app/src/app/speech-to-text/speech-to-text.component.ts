@@ -9,18 +9,19 @@ import { Howl } from 'howler';
   providers: [VoiceRecognitionService]
 })
 export class SpeechToTextComponent implements OnInit {
+
   recording = false;
   selectedMenu = "Recherche Vocale";
-  audio = new Howl({
-    src: ['assets/poh.wav'],
-  });
+
   menu = [
     { text: "Recherche Vocale", icon: "", id: 0 },
     { text: "Recherche par saisie", icon: "", id: 1 },
     { text: "Historique", icon: "", id: 2 },
     { text: "Parametres", icon: "", id: 3 }
-  ]
+  ];
+
   showFiller = false;
+
   constructor(public service: VoiceRecognitionService) {
     this.service.init()
   }
@@ -28,18 +29,16 @@ export class SpeechToTextComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  playAudio() {
-    this.audio.play()
-  }
-
-
   startService() {
-    if (!this.recording) { this.service.start(); this.recording = true; }
+    if (!this.recording){ 
+      this.service.start(); 
+      this.recording = true; 
+    }
   }
 
-  stopService() {
+  getBestPath() {
     this.recording = false;
-    this.service.stop()
+    this.service.getBestPath();
   }
 
 }

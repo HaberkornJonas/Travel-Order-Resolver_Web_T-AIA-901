@@ -36,15 +36,16 @@ export class VoiceRecognitionService {
 
   start() {
     this.showRequest = "";
+    this.bestPath = [];
     this.isStoppedSpeechRecog = false;
     this.recognition.start();
     console.log("Speech recognition started");
 
     setTimeout(() => {
       if (this.tempWords.length === 0) {
-        this.stop();
+        this.getBestPath();
       }
-    }, 2500);
+    }, 3000);
 
     this.recognition.addEventListener('end', (condition) => {
       if (this.isStoppedSpeechRecog) {
@@ -57,7 +58,7 @@ export class VoiceRecognitionService {
     });
   }
 
-  stop() {
+  getBestPath() {
     this.isStoppedSpeechRecog = true;
     this.wordConcat()
     this.recognition.stop();
@@ -77,4 +78,5 @@ export class VoiceRecognitionService {
 
     this.tempWords = '';
   }
+
 }
