@@ -57,7 +57,8 @@ class LanguageProcessing:
     # NOUN links: 'nmod'_parent
     NOUN_Relation = [
         # Start
-        WordSense("provenance", RelationDirection.START, RelationStrength.STRONG),
+        WordSense("provenance", RelationDirection.START,
+                  RelationStrength.STRONG),
         # Destination
         WordSense("direction", RelationDirection.DEST, RelationStrength.WEAK),
         WordSense("destination", RelationDirection.DEST, RelationStrength.WEAK)
@@ -67,11 +68,15 @@ class LanguageProcessing:
     # ADP links: 'case'_child, 'dep'_parent
     ADP_FIXED_Relation = [
         # Start
-        LinkedWordSense("à", "partir", RelationDirection.START, RelationStrength.STRONG),
-        LinkedWordSense("en", "partant", RelationDirection.START, RelationStrength.STRONG),
+        LinkedWordSense("à", "partir", RelationDirection.START,
+                        RelationStrength.STRONG),
+        LinkedWordSense("en", "partant", RelationDirection.START,
+                        RelationStrength.STRONG),
         # Destination
-        LinkedWordSense("à", "destination", RelationDirection.DEST, RelationStrength.STRONG),
-        LinkedWordSense("en", "direction", RelationDirection.DEST, RelationStrength.WEAK)
+        LinkedWordSense("à", "destination",
+                        RelationDirection.DEST, RelationStrength.STRONG),
+        LinkedWordSense("en", "direction",
+                        RelationDirection.DEST, RelationStrength.WEAK)
     ]
     ADP_Relation = [
         # Start
@@ -85,7 +90,8 @@ class LanguageProcessing:
         WordSense("aux", RelationDirection.DEST, RelationStrength.WEAK),
         WordSense("dans", RelationDirection.DEST, RelationStrength.WEAK),
         WordSense("en", RelationDirection.DEST, RelationStrength.WEAK),
-        WordSense("par", RelationDirection.DEST, RelationStrength.WEAK)  # par : "passer par Paris"
+        # par : "passer par Paris"
+        WordSense("par", RelationDirection.DEST, RelationStrength.WEAK)
     ]
 
     # VERB links: 'obl:arg'_parent, 'obl:mod'_parent
@@ -96,7 +102,8 @@ class LanguageProcessing:
     ]
     VERB_Relation = [
         # Start
-        WordSense("décoller", RelationDirection.START, RelationStrength.STRONG),
+        WordSense("décoller", RelationDirection.START,
+                  RelationStrength.STRONG),
         WordSense("passer", RelationDirection.START, RelationStrength.WEAK),
         WordSense("être", RelationDirection.START, RelationStrength.STRONG),
         # Destination
@@ -104,14 +111,15 @@ class LanguageProcessing:
         WordSense("aller", RelationDirection.DEST, RelationStrength.STRONG),
         WordSense("visiter", RelationDirection.DEST, RelationStrength.STRONG),
         WordSense("atterrir", RelationDirection.DEST, RelationStrength.STRONG),
-        WordSense("découvrir", RelationDirection.DEST, RelationStrength.STRONG),
+        WordSense("découvrir", RelationDirection.DEST,
+                  RelationStrength.STRONG),
         WordSense("voyager", RelationDirection.DEST, RelationStrength.STRONG),
         WordSense("rendre", RelationDirection.DEST, RelationStrength.STRONG)
     ]
 
     def analyseRequest(self, request):
         print(f"Request: {request}")
-        nlp = spacy.load("fr_core_news_sm")
+        nlp = spacy.load("fr_core_news_lg")
         doc = nlp(request)
         locations = []
         fullTrip = []
@@ -193,7 +201,8 @@ class LanguageProcessing:
                     if child.pos == CCONJ:
                         for ref in self.CCONJ_Relation:
                             if ref.word == child.lemma_:
-                                print(f"Found CCONJ: {ref.word} - {ref.strength.name}")
+                                print(
+                                    f"Found CCONJ: {ref.word} - {ref.strength.name}")
                                 foundWeight.append(ref)
                                 break
 
@@ -202,7 +211,8 @@ class LanguageProcessing:
                     if parent.pos == NOUN:
                         for ref in self.NOUN_Relation:
                             if ref.word == parent.lemma_:
-                                print(f"Found NOUN: {ref.word} - {ref.strength.name}")
+                                print(
+                                    f"Found NOUN: {ref.word} - {ref.strength.name}")
                                 foundWeight.append(ref)
                                 break
 
@@ -214,7 +224,8 @@ class LanguageProcessing:
                                 if subChild.dep_ == 'fixed':
                                     for ref in self.ADP_FIXED_Relation:
                                         if ref.word == child.lemma_ and ref.fixedWord == subChild.lemma_:
-                                            print(f"Found ADP_FIXED: {ref.word} {ref.fixedWord}")
+                                            print(
+                                                f"Found ADP_FIXED: {ref.word} {ref.fixedWord}")
                                             foundWeight.append(ref)
                                             break
 
@@ -223,7 +234,8 @@ class LanguageProcessing:
                     for child in tokens[i].children:
                         for ref in self.ADP_Relation:
                             if ref.word == child.lemma_:
-                                print(f"Found ADP: {ref.word} - {ref.strength.name}")
+                                print(
+                                    f"Found ADP: {ref.word} - {ref.strength.name}")
                                 foundWeight.append(ref)
                                 break
 
@@ -234,7 +246,8 @@ class LanguageProcessing:
                             if child.dep_ == 'mark' and child.pos == ADP:
                                 for ref in self.VERB_MARK_Relation:
                                     if ref.word == child.lemma_:
-                                        print(f"Found VERB_MARK: {ref.word} - {ref.strength.name}")
+                                        print(
+                                            f"Found VERB_MARK: {ref.word} - {ref.strength.name}")
                                         foundWeight.append(ref)
                                         break
 
@@ -242,14 +255,16 @@ class LanguageProcessing:
                 if len(foundWeight) <= 1:  # Prioritary over CCONJ, NOUN, ADP_FIXED and VERB_MARK
                     for ref in self.VERB_Relation:
                         if ref.word == parent.lemma_:
-                            print(f"Found VERB: {ref.word} - {ref.strength.name}")
+                            print(
+                                f"Found VERB: {ref.word} - {ref.strength.name}")
                             foundWeight.append(ref)
                             break
 
                 # Default - Keep position
                 if len(foundWeight) == 0:  # Fallback
                     print(f"Using default weight")
-                    foundWeight.append(self.WordSense("default", RelationDirection.DEST, RelationStrength.WEAK))
+                    foundWeight.append(self.WordSense(
+                        "default", RelationDirection.DEST, RelationStrength.WEAK))
 
                 # Extract first strong relation
                 selectedWeight = None
@@ -289,7 +304,8 @@ class LanguageProcessing:
                         if numberOfStrongStrength == 0:
                             orderedTokens.append(token)
                         else:
-                            orderedTokens.insert(len(orderedTokens) - numberOfStrongStrength, token)
+                            orderedTokens.insert(
+                                len(orderedTokens) - numberOfStrongStrength, token)
 
             # Populate full trip cities list
             for token in orderedTokens:
@@ -305,14 +321,19 @@ class LanguageProcessing:
 
     # TESTS
     requests = [
-        ("J'aimerais aller d'Orléans à Paris puis dans les Vosges", ["Orléans", "Paris", "Vosges"]),
+        ("J'aimerais aller d'Orléans à Paris puis dans les Vosges",
+         ["Orléans", "Paris", "Vosges"]),
         ("Je veux aller à Marseille à partir de Lyon", ["Lyon", "Marseille"]),
-        ("Je veux visiter Paris en partant de Bordeaux et en passant par Nantes", ["Bordeaux", "Nantes", "Paris"]),
-        ("Je veux prendre le train à Mulhouse à destination de Strasbourg", ["Mulhouse", "Strasbourg"]),
+        ("Je veux visiter Paris en partant de Bordeaux et en passant par Nantes", [
+         "Bordeaux", "Nantes", "Paris"]),
+        ("Je veux prendre le train à Mulhouse à destination de Strasbourg",
+         ["Mulhouse", "Strasbourg"]),
         ("Strasbourg en provenance de Mulhouse", ["Mulhouse", "Strasbourg"]),
         ("Je veux aller de Mulhouse à Strasbourg", ["Mulhouse", "Strasbourg"]),
-        ("Je veux faire Paris Gare De l'est Marseille", ["Paris", "Marseille"]),
-        ("Je veux aller à Paris après être allé à Mulhouse depuis Lyon", ["Lyon", "Mulhouse", "Paris"]),
+        ("Je veux faire Paris Gare De l'est Marseille",
+         ["Paris", "Marseille"]),
+        ("Je veux aller à Paris après être allé à Mulhouse depuis Lyon",
+         ["Lyon", "Mulhouse", "Paris"]),
         ("Paris-Marseille", ["Paris", "Marseille"]),
         ("Je suis à Paris et je veux aller à Strasbourg avec mon amis Frank que je récupère à Mulhouse",
          ["Paris", "Mulhouse", "Strasbourg"]),
@@ -324,7 +345,9 @@ class LanguageProcessing:
         for index in range(len(self.requests)):
             sentence, expectedResult = self.requests[index]
             result = self.analyseRequest(sentence)
-            print(f"\n\n\n***************************    # {index}    ***************************")
+            print(
+                f"\n\n\n***************************    # {index}    ***************************")
             print(f"result:    {result}")
             print(f"exprected: {expectedResult}")
-            print("*****************************************************************\n\n\n")
+            print(
+                "*****************************************************************\n\n\n")
