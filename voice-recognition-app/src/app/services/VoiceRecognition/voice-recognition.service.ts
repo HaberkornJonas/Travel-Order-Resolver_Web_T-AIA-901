@@ -13,7 +13,6 @@ export class VoiceRecognitionService {
 
   recognition = new webkitSpeechRecognition();
   isStoppedSpeechRecog = false;
-  public text = "";
   public showRequest = "";
   tempWords = "";
   bestPath: string[];
@@ -45,7 +44,7 @@ export class VoiceRecognitionService {
       if (this.tempWords.length === 0) {
         this.stop();
       }
-    }, 3000);
+    }, 2500);
 
     this.recognition.addEventListener('end', (condition) => {
       if (this.isStoppedSpeechRecog) {
@@ -59,26 +58,23 @@ export class VoiceRecognitionService {
   }
 
   stop() {
-    this.showRequest = this.text;
     this.isStoppedSpeechRecog = true;
     this.wordConcat()
     this.recognition.stop();
     console.log("End speech recognition")
-    this.text = "";
 
     if (this.showRequest.length > 0)
       this.pathFinderAPI.getBestPath(this.showRequest).subscribe(res => {
         this.bestPath = res;
+        console.log(res)
       });
   }
 
   wordConcat() {
-
     if (this.tempWords.length > 0) {
-      this.text = this.text + ' ' + this.tempWords;
+      this.showRequest = this.showRequest + ' ' + this.tempWords;
     }
 
     this.tempWords = '';
-
   }
 }
