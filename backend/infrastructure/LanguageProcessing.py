@@ -47,74 +47,68 @@ class LanguageProcessing:
     # CCONJ links: 'cc'_child
     CCONJ_Relation = [
         # Start
-        WordSense("depuis", RelationDirection.START, RelationStrength.STRONG),
+        WordSense("depuis",     RelationDirection.START, RelationStrength.STRONG),
         # Destination
-        WordSense("puis", RelationDirection.DEST, RelationStrength.STRONG),
-        WordSense("et", RelationDirection.DEST, RelationStrength.STRONG),
-        WordSense("enfin", RelationDirection.DEST, RelationStrength.STRONG)
+        WordSense("puis",       RelationDirection.DEST,  RelationStrength.STRONG),
+        WordSense("et",         RelationDirection.DEST,  RelationStrength.STRONG),
+        WordSense("enfin",      RelationDirection.DEST,  RelationStrength.STRONG)
     ]
 
     # NOUN links: 'nmod'_parent
     NOUN_Relation = [
         # Start
-        WordSense("provenance", RelationDirection.START,
-                  RelationStrength.STRONG),
+        WordSense("provenance",     RelationDirection.START, RelationStrength.STRONG),
         # Destination
-        WordSense("direction", RelationDirection.DEST, RelationStrength.WEAK),
-        WordSense("destination", RelationDirection.DEST, RelationStrength.WEAK)
+        WordSense("direction",      RelationDirection.DEST,  RelationStrength.WEAK),
+        WordSense("destination",    RelationDirection.DEST,  RelationStrength.WEAK)
     ]
 
-    # ADP_FIXED has the priority
+    # ADP_FIXED has the priority 
     # ADP links: 'case'_child, 'dep'_parent
     ADP_FIXED_Relation = [
         # Start
-        LinkedWordSense("à", "partir", RelationDirection.START,
-                        RelationStrength.STRONG),
-        LinkedWordSense("en", "partant", RelationDirection.START,
-                        RelationStrength.STRONG),
+        LinkedWordSense("à","partir",       RelationDirection.START, RelationStrength.STRONG),
+        LinkedWordSense("en", "partant",    RelationDirection.START, RelationStrength.STRONG),
         # Destination
-        LinkedWordSense("à", "destination",
-                        RelationDirection.DEST, RelationStrength.STRONG),
-        LinkedWordSense("en", "direction",
-                        RelationDirection.DEST, RelationStrength.WEAK)
+        LinkedWordSense("à","destination",  RelationDirection.DEST,  RelationStrength.STRONG),
+        LinkedWordSense("en","direction",   RelationDirection.DEST,  RelationStrength.WEAK)
     ]
+
     ADP_Relation = [
         # Start
-        WordSense("de", RelationDirection.START, RelationStrength.STRONG),
-        WordSense("du", RelationDirection.START, RelationStrength.STRONG),
-        WordSense("des", RelationDirection.START, RelationStrength.STRONG),
+        WordSense("de",     RelationDirection.START, RelationStrength.STRONG),
+        WordSense("du",     RelationDirection.START, RelationStrength.STRONG),
+        WordSense("des",    RelationDirection.START, RelationStrength.STRONG),
         WordSense("depuis", RelationDirection.START, RelationStrength.STRONG),
         # Destination
-        WordSense("à", RelationDirection.DEST, RelationStrength.WEAK),
-        WordSense("au", RelationDirection.DEST, RelationStrength.WEAK),
-        WordSense("aux", RelationDirection.DEST, RelationStrength.WEAK),
-        WordSense("dans", RelationDirection.DEST, RelationStrength.WEAK),
-        WordSense("en", RelationDirection.DEST, RelationStrength.WEAK),
-        # par : "passer par Paris"
-        WordSense("par", RelationDirection.DEST, RelationStrength.WEAK)
-    ]
+        WordSense("à",      RelationDirection.DEST,  RelationStrength.WEAK),
+        WordSense("au",     RelationDirection.DEST,  RelationStrength.WEAK),
+        WordSense("aux",    RelationDirection.DEST,  RelationStrength.WEAK),
+        WordSense("dans",   RelationDirection.DEST,  RelationStrength.WEAK),
+        WordSense("en",     RelationDirection.DEST,  RelationStrength.WEAK),
+        WordSense("par",    RelationDirection.DEST,  RelationStrength.WEAK) # par : "passer par Paris"
+    ] 
 
     # VERB links: 'obl:arg'_parent, 'obl:mod'_parent
     # "partir" is ambiguous: "partir de ..." "partir à ..."
     VERB_MARK_Relation = [
-        WordSense("après", RelationDirection.START, RelationStrength.STRONG),
-        WordSense("avant", RelationDirection.DEST, RelationStrength.STRONG)
+        WordSense("après",   RelationDirection.START, RelationStrength.WEAK),
+        WordSense("avant",   RelationDirection.DEST, RelationStrength.STRONG),
+        WordSense("de",   RelationDirection.START, RelationStrength.STRONG),
     ]
     VERB_Relation = [
         # Start
-        WordSense("décoller", RelationDirection.START,
-                  RelationStrength.STRONG),
-        WordSense("passer", RelationDirection.START, RelationStrength.WEAK),
-        WordSense("être", RelationDirection.START, RelationStrength.STRONG),
+        WordSense("décoller",   RelationDirection.START, RelationStrength.STRONG),
+        WordSense("passer",     RelationDirection.START, RelationStrength.WEAK),
+        WordSense("être",       RelationDirection.START, RelationStrength.STRONG),
         # Destination
-        WordSense("arriver", RelationDirection.DEST, RelationStrength.STRONG),
-        WordSense("aller", RelationDirection.DEST, RelationStrength.STRONG),
-        WordSense("visiter", RelationDirection.DEST, RelationStrength.STRONG),
-        WordSense("atterrir", RelationDirection.DEST, RelationStrength.STRONG),
-        WordSense("découvrir", RelationDirection.DEST,
-                  RelationStrength.STRONG),
-        WordSense("voyager", RelationDirection.DEST, RelationStrength.STRONG),
-        WordSense("rendre", RelationDirection.DEST, RelationStrength.STRONG)
+        WordSense("arriver",    RelationDirection.DEST,  RelationStrength.STRONG),
+        WordSense("aller",      RelationDirection.DEST,  RelationStrength.STRONG),
+        WordSense("visiter",    RelationDirection.DEST,  RelationStrength.STRONG),
+        WordSense("atterrir",   RelationDirection.DEST,  RelationStrength.STRONG),
+        WordSense("découvrir",  RelationDirection.DEST,  RelationStrength.STRONG),
+        WordSense("voyager",    RelationDirection.DEST,  RelationStrength.STRONG),
+        WordSense("rendre",     RelationDirection.DEST,  RelationStrength.STRONG)
     ]
 
     def analyseRequest(self, request):
@@ -282,9 +276,9 @@ class LanguageProcessing:
             # Order tokens
             orderedTokens = []
             # First pass for direction: START
+            numberOfStrongStrength = 0
             for i in range(len(weighedTokens)):
                 token, weight = weighedTokens[i]
-                numberOfStrongStrength = 0
                 if weight.direction == RelationDirection.START:
                     if weight.strength == RelationStrength.STRONG:
                         orderedTokens.insert(numberOfStrongStrength, token)
@@ -321,22 +315,20 @@ class LanguageProcessing:
 
     # TESTS
     requests = [
-        ("J'aimerais aller d'Orléans à Paris puis dans les Vosges",
-         ["Orléans", "Paris", "Vosges"]),
+        ("Je veux partir de Mulhouse et visiter Paris depuis Strasbourg", ["Mulhouse", "Strasbourg", "Paris"]),
+        ("J'aimerais aller d'Orléans à Paris puis dans les Vosges", ["Orléans", "Paris", "Vosges"]),
         ("Je veux aller à Marseille à partir de Lyon", ["Lyon", "Marseille"]),
-        ("Je veux visiter Paris en partant de Bordeaux et en passant par Nantes", [
-         "Bordeaux", "Nantes", "Paris"]),
-        ("Je veux prendre le train à Mulhouse à destination de Strasbourg",
-         ["Mulhouse", "Strasbourg"]),
+        ("Je veux visiter Paris en partant de Bordeaux et en passant par Nantes", ["Bordeaux", "Nantes", "Paris"]),
+        ("Je veux prendre le train à Mulhouse à destination de Strasbourg", ["Mulhouse", "Strasbourg"]),
         ("Strasbourg en provenance de Mulhouse", ["Mulhouse", "Strasbourg"]),
         ("Je veux aller de Mulhouse à Strasbourg", ["Mulhouse", "Strasbourg"]),
-        ("Je veux faire Paris Gare De l'est Marseille",
-         ["Paris", "Marseille"]),
-        ("Je veux aller à Paris après être allé à Mulhouse depuis Lyon",
-         ["Lyon", "Mulhouse", "Paris"]),
+        ("Je veux faire Paris Gare De l'est Marseille", ["Paris", "Marseille"]),
+        ("Je veux aller à Paris après être allé à Mulhouse depuis Lyon", ["Lyon", "Mulhouse", "Paris"]),
         ("Paris-Marseille", ["Paris", "Marseille"]),
-        ("Je suis à Paris et je veux aller à Strasbourg avec mon amis Frank que je récupère à Mulhouse",
-         ["Paris", "Mulhouse", "Strasbourg"]),
+        ("Je suis à Paris et je veux aller à Strasbourg avec mon amis Frank que je récupère à Mulhouse", ["Paris", "Mulhouse", "Strasbourg"]),
+        ("Je veux voyager de Mulhouse pour visiter Paris en passant par Strasbourg", ["Mulhouse", "Strasbourg", "Paris"]),
+        ("Je veux partir de Mulhouse et visiter Paris depuis la destination de Strasbourg", ["Mulhouse", "Strasbourg", "Paris"]),
+        ("Je veux prendre le train de Mulhouse à destination de Colmar et Strasbourg", ["Mulhouse", "Colmar", "Strasbourg"]),
         ("Je souhaite une pizza napolitaine à Rome", []),
         ("Je veux aller à Lyon", [])
     ]
