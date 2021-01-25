@@ -25,6 +25,8 @@ class InitData:
 
     def init(self):
         currentPath = os.getcwd()
+        # python backend/app.py
+        # timeTableFileName = os.path.join(currentPath, 'backend/data/timetables_edited.csv') #uncomment for without docker use
         timeTableFileName = os.path.join(currentPath, 'data/timetables_edited.csv')
         with open(timeTableFileName, newline='', encoding='UTF-8') as csvFile:
             reader = csv.reader(csvFile, delimiter=',')

@@ -1,11 +1,96 @@
-<div style="margin: 100px;">
-    <h1>Où voulez vous vous rendre ?</h1>
-    <button style="margin: 10px;" (click)="startService()">Appuyez pour enregistrer votre demande</button>
-    <button style="margin: 10px;" (click)="stopService()">Stop</button>
-    <p>{{service.text || service.showRequest}}</p>
-    <p>Meilleur trajet possible : </p>
-    <br>
-    <ul>
-        <li *ngFor="let path of service.bestPath">{{path}}</li>
-    </ul>
-</div>
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <mat-selection-list #shoes [multiple]="false">
+      <mat-list-option
+        (click)="drawer.toggle()"
+        *ngFor="let menu_ of menu"
+        [value]="menu_"
+      >
+        {{ menu_.text }}
+        <mat-divider></mat-divider>
+      </mat-list-option>
+    </mat-selection-list>
+
+    <!-- <mat-grid-list cols="4" rowHeight="100px">
+        <mat-grid-tile
+            *ngFor="let menu_ of menu" >
+          <button  *ngFor="let menu_ of menu"  (click)="showFiller = !showFiller" mat-raised-button>
+        {{menu_.text}}
+      </button>
+      <br>
+        </mat-grid-tile>
+      </mat-grid-list>
+     -->
+  </mat-drawer>
+
+  <p>
+    <mat-toolbar color="primary">
+      <button
+        (click)="drawer.toggle()"
+        mat-icon-button
+        class="example-icon"
+        aria-label="Example icon-button with menu icon"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>{{ "PROJET IA 901 GR -- " + selectedMenu }}</span>
+      <span class="example-spacer"></span>
+    </mat-toolbar>
+  </p>
+
+  <div class="example-sidenav-content">
+    <!-- <button type="button" mat-button (click)="playAudio(); startService()">
+      play
+    </button> -->
+
+    <div style="margin: 100px">
+      <h1>Où voulez vous vous rendre ?</h1>
+      <!-- <button style="margin: 10px" (click)="startService()">
+        Appuyez pour enregistrer votre demande
+      </button> -->
+      <button
+        mat-raised-button
+        (click)="playAudio(); startService()"
+        color="primary"
+      >
+        Commencer l'enregistrement
+      </button>
+      <div style="margin: 10px"></div>
+      <button
+        mat-raised-button
+        (click)="playAudio(); stopService()"
+        color="warn"
+      >
+        Arreter et chercher
+      </button>
+      <br>
+
+      <!-- TF arret -->
+      <!-- {{ service.isStoppedSpeechRecog }}
+      {{ recording }}
+      <mat-spinner
+        *ngIf="service.isStoppedSpeechRecog && recording"
+      ></mat-spinner> -->
+
+      <!-- <button style="margin: 10px" (click)="stopService()">Stop</button> -->
+      <br>
+      <mat-card *ngIf="service.text || service.showRequest " >{{ service.text || service.showRequest }}</mat-card>
+      <br>
+      <mat-card  *ngIf="service.bestPath">
+        <mat-vertical-stepper
+         
+          [linear]="false"
+          #stepper
+        >
+          <mat-step *ngFor="let path of service.bestPath">
+            <ng-template matStepLabel>{{ path }} </ng-template>
+          </mat-step>
+        </mat-vertical-stepper>
+      </mat-card>
+
+      <!-- <ul>
+        <li *ngFor="let path of service.bestPath">{{ path }}</li>
+      </ul> -->
+    </div>
+  </div>
+</mat-drawer-container>
