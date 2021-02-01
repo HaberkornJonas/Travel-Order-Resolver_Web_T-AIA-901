@@ -9,13 +9,15 @@ declare var webkitSpeechRecognition: any;
 })
 export class VoiceRecognitionService {
 
+  public showRequest = "";
+  public tempWords = "";
+  public error = "";
+  public bestPath: string[];
+
   pathFinderAPI = new PathfinderService(this.httpClient);
 
   recognition = new webkitSpeechRecognition();
   isStoppedSpeechRecog = false;
-  public showRequest = "";
-  public tempWords = "";
-  bestPath: string[];
   nonRecordingSecInARow = 0
 
   constructor(private httpClient: HttpClient) { }
@@ -49,7 +51,7 @@ export class VoiceRecognitionService {
           this.nonRecordingSecInARow = 0;
           this.isStoppedSpeechRecog = true;
           this.recognition.stop();
-          clearInterval(interval)
+          clearInterval(interval);
         }
       }
       else {
@@ -78,16 +80,20 @@ export class VoiceRecognitionService {
     this.bestPath = [];
   }
 
-  getBestPath() {
+  getBestPath(callback: () => void) {
     this.isStoppedSpeechRecog = true;
-    this.wordConcat()
+    this.wordConcat();
     this.recognition.stop();
-    console.log("End speech recognition")
 
     if (this.showRequest.length > 0)
       this.pathFinderAPI.getBestPath(this.showRequest).subscribe(res => {
         this.bestPath = res;
-        console.log(res)
+        console.log("Path returned by the API: ", res);
+        callback();
+      },
+      error => {
+        this.error = error.message;
+        callback();
       });
   }
 

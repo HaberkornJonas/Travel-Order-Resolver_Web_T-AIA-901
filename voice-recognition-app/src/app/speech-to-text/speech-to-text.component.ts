@@ -10,6 +10,7 @@ import { VoiceRecognitionService } from '../services/VoiceRecognition/voice-reco
 export class SpeechToTextComponent implements OnInit {
 
   recording = false;
+  loading = false;
 
   constructor(public service: VoiceRecognitionService) {
     this.service.init()
@@ -37,7 +38,10 @@ export class SpeechToTextComponent implements OnInit {
 
   getBestPath() {
     this.recording = false;
-    this.service.getBestPath();
+    this.loading = true;
+    this.service.getBestPath(() => {
+      this.loading = false;
+    });
   }
 
 }

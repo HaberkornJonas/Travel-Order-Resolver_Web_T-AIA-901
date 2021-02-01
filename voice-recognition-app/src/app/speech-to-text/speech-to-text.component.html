@@ -1,7 +1,7 @@
 <mat-drawer-container class="example-container" autosize>
   <p>
     <mat-toolbar color="primary">
-      <span>PROJET IA 901 GR -- Recherche Vocale</span>
+      <span>PROJET IA 901 GR 11 - Recherche Vocale</span>
       <span class="example-spacer"></span>
     </mat-toolbar>
   </p>
@@ -9,11 +9,11 @@
   <div class="example-sidenav-content">
     <div style="margin: 100px">
       <h1>Où voulez vous vous rendre ?</h1>
-      <button mat-raised-button [disabled]="recording" (click)="startService()" color="primary">
+      <button mat-raised-button [disabled]="recording || loading" (click)="startService()" color="primary">
         Commencer l'enregistrement
       </button>
       <div style="margin: 10px"></div>
-      <button mat-raised-button [disabled]="!recording" (click)="stopService()" color="primary">
+      <button mat-raised-button [disabled]="!recording || loading" (click)="stopService()" color="primary">
         Stopper l'enregistrement
       </button>
       <div style="margin: 10px"></div>
@@ -26,20 +26,24 @@
         
         <br>
         
-        <button [disabled]="recording" mat-raised-button (click)="clear()" color="warn">
-          Effacer
-        </button>
-        &nbsp;&nbsp;
-        <button [disabled]="recording" mat-raised-button (click)="getBestPath()" color="primary">
+        <button [disabled]="recording || loading" mat-raised-button (click)="getBestPath()" color="primary">
           Chercher
         </button>
+        &nbsp;&nbsp;
+        <button [disabled]="recording || loading" mat-raised-button (click)="clear()" color="warn">
+          Effacer
+        </button>
+        <br *ngIf="loading"/>
+        <br *ngIf="loading"/>
+        <mat-spinner *ngIf="loading"></mat-spinner>
       </ng-container>
 
       <br>
+      <br>
 
       <mat-card *ngIf="service.bestPath?.length > 0">
-        <mat-vertical-stepper [linear]="false" #stepper>
-          <mat-step *ngFor="let path of service.bestPath">
+        <mat-vertical-stepper [linear]="true" #stepper>
+          <mat-step *ngFor="let path of service.bestPath" [completed]=false [editable]=false>
             <ng-template matStepLabel>{{ path }} </ng-template>
           </mat-step>
         </mat-vertical-stepper>
