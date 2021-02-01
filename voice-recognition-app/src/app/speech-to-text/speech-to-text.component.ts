@@ -11,16 +11,6 @@ import { Howl } from 'howler';
 export class SpeechToTextComponent implements OnInit {
 
   recording = false;
-  selectedMenu = "Recherche Vocale";
-
-  menu = [
-    { text: "Recherche Vocale", icon: "", id: 0 },
-    { text: "Recherche par saisie", icon: "", id: 1 },
-    { text: "Historique", icon: "", id: 2 },
-    { text: "Parametres", icon: "", id: 3 }
-  ];
-
-  showFiller = false;
 
   constructor(public service: VoiceRecognitionService) {
     this.service.init()

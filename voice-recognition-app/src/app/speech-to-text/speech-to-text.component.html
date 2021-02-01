@@ -1,20 +1,7 @@
 <mat-drawer-container class="example-container" autosize>
-  <mat-drawer #drawer class="example-sidenav" mode="side">
-    <mat-selection-list #shoes [multiple]="false">
-      <mat-list-option (click)="drawer.toggle()" *ngFor="let menu_ of menu" [value]="menu_">
-        {{ menu_.text }}
-        <mat-divider></mat-divider>
-      </mat-list-option>
-    </mat-selection-list>
-  </mat-drawer>
-
   <p>
     <mat-toolbar color="primary">
-      <button (click)="drawer.toggle()" mat-icon-button class="example-icon"
-        aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span>{{ "PROJET IA 901 GR -- " + selectedMenu }}</span>
+      <span>PROJET IA 901 GR -- Recherche Vocale</span>
       <span class="example-spacer"></span>
     </mat-toolbar>
   </p>
