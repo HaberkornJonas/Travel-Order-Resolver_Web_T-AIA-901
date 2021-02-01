@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { VoiceRecognitionService } from '../services/VoiceRecognition/voice-recognition.service'
-import { Howl } from 'howler';
 
 @Component({
   selector: 'app-speech-to-text',
@@ -21,9 +20,19 @@ export class SpeechToTextComponent implements OnInit {
 
   startService() {
     if (!this.recording){ 
-      this.service.start(); 
+      this.service.start(() => {
+        this.recording = false;
+      }); 
       this.recording = true; 
     }
+  }
+
+  stopService(){
+    this.service.stop();
+  }
+
+  clear(){
+    this.service.clear();
   }
 
   getBestPath() {

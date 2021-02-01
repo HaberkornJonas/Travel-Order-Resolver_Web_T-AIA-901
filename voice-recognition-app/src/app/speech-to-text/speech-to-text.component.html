@@ -9,18 +9,34 @@
   <div class="example-sidenav-content">
     <div style="margin: 100px">
       <h1>Où voulez vous vous rendre ?</h1>
-      <button mat-raised-button (click)="startService()" color="primary">
+      <button mat-raised-button [disabled]="recording" (click)="startService()" color="primary">
         Commencer l'enregistrement
       </button>
       <div style="margin: 10px"></div>
-      <button mat-raised-button (click)="getBestPath()" color="warn">
-        Chercher
+      <button mat-raised-button [disabled]="!recording" (click)="stopService()" color="primary">
+        Stopper l'enregistrement
       </button>
-      <br>
+      <div style="margin: 10px"></div>
 
       <br>
-      <mat-card *ngIf="service.showRequest">{{service.showRequest }}</mat-card>
       <br>
+
+      <ng-container *ngIf="service.showRequest || service.tempWords">
+        <mat-card >{{(service.showRequest != service.tempWords ? service.showRequest + ' ' + service.tempWords : service.tempWords)}}</mat-card>
+        
+        <br>
+        
+        <button [disabled]="recording" mat-raised-button (click)="clear()" color="warn">
+          Effacer
+        </button>
+        &nbsp;&nbsp;
+        <button [disabled]="recording" mat-raised-button (click)="getBestPath()" color="primary">
+          Chercher
+        </button>
+      </ng-container>
+
+      <br>
+
       <mat-card *ngIf="service.bestPath?.length > 0">
         <mat-vertical-stepper [linear]="false" #stepper>
           <mat-step *ngFor="let path of service.bestPath">

@@ -14,8 +14,9 @@ export class VoiceRecognitionService {
   recognition = new webkitSpeechRecognition();
   isStoppedSpeechRecog = false;
   public showRequest = "";
-  tempWords = "";
+  public tempWords = "";
   bestPath: string[];
+  nonRecordingSecInARow = 0
 
   constructor(private httpClient: HttpClient) { }
 
@@ -34,28 +35,47 @@ export class VoiceRecognitionService {
     });
   }
 
-  start() {
+  start(endCallback: () => void) {
     this.showRequest = "";
     this.bestPath = [];
     this.isStoppedSpeechRecog = false;
     this.recognition.start();
     console.log("Speech recognition started");
 
-    setTimeout(() => {
+    var interval = setInterval(() => {
       if (this.tempWords.length === 0) {
-        this.getBestPath();
+        this.nonRecordingSecInARow = this.nonRecordingSecInARow + 1;
+        if(this.nonRecordingSecInARow == 3){
+          this.nonRecordingSecInARow = 0;
+          this.isStoppedSpeechRecog = true;
+          this.recognition.stop();
+          clearInterval(interval)
+        }
       }
-    }, 3000);
+      else {
+        this.nonRecordingSecInARow = 0;
+      }
+    }, 1000);
 
     this.recognition.addEventListener('end', (condition) => {
       if (this.isStoppedSpeechRecog) {
         this.recognition.stop();
-        console.log("End speech recognition")
+        endCallback();
       } else {
         this.wordConcat();
         this.recognition.start();
       }
     });
+  }
+
+  stop(){
+    this.isStoppedSpeechRecog = true;
+  }
+
+  clear() {
+    this.tempWords = "";
+    this.showRequest = "";
+    this.bestPath = [];
   }
 
   getBestPath() {
