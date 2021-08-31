@@ -51,7 +51,7 @@ Semestre 9 *(premier semestre de M2)*
 
 # Equipe et répartition du travail (Partie Web)
 **Nombre de commit total :** 18  
-**Chef de projet :** Haberkorn Jonas
+**Chef de projet :** Haberkorn Jonas  
 **Documentation réalisée par :** Haberkorn Jonas  
 **Diaporama de présentation réalisé par :** Haberkorn Jonas
 
